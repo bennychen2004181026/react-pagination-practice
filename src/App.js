@@ -8,7 +8,6 @@ import axios from "axios";
 function App() {
   const [posts, setPosts] = useState([]); //useState
   const [loading, setLoading] = useState(true); //inital loading state is true
-  // eslint-disable-next-line
   const [currentPage, setCurrentPage] = useState(1); //current page state
   const postPerPage = 10; //10 posts per page
   useEffect(() => {
@@ -30,6 +29,9 @@ function App() {
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentPagePosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  //props are immutable and readonly, being transfered to child components
+  //change page call back function for child components to update the state in parent compoent
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
   if (loading) {
     return <div> Loading... </div>;
   }
@@ -37,7 +39,10 @@ function App() {
     <div className="container">
       <h1>Blogs</h1>
       <Post posts={currentPagePosts} />
-      <Pagination />
+      <Pagination postPerPage={postPerPage}
+        totalPosts={posts.length}
+        paginate={paginate}
+      />
 
     </div>
   );
