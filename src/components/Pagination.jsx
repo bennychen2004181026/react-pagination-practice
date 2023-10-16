@@ -9,7 +9,7 @@ export default function Pagination({ postPerPage, totalPosts, paginate }) {
         return (
           <li className="page-item" key={number}>
             {/* eslint-disable-next-line */}
-            <a className="page-link">{number}</a>
+            <a className="page-link" onClick={() => paginate(number)}>{number}</a>
           </li>
         );
       })}
