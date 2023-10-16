@@ -8,6 +8,9 @@ import axios from "axios";
 function App() {
   const [posts, setPosts] = useState([]); //useState
   const [loading, setLoading] = useState(true); //inital loading state is true
+  // eslint-disable-next-line
+  const [currentPage, setCurrentPage] = useState(1); //current page state
+  const postPerPage = 10; //10 posts per page
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,13 +26,17 @@ function App() {
     fetchData();
   }, []); //componentDidMount
 
+  //using array slice method to get posts of current page
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPagePosts = posts.slice(indexOfFirstPost, indexOfLastPost);
   if (loading) {
     return <div> Loading... </div>;
   }
   return (
-    <div className="App">
-
-      <Post />
+    <div className="container">
+      <h1>Blogs</h1>
+      <Post posts={currentPagePosts} />
       <Pagination />
 
     </div>
